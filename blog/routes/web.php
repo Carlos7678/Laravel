@@ -15,7 +15,7 @@ Route::get('/posts', function () {
 
 
 Route::get('/posts/{id}', function ($id) {
-    return view('posts.ficha')-> with(['id'=> $id]);
+    return view('posts.ficha')->with(['id' => $id]);
 })->where('id', '[0-9]+')->name('posts_ficha');
 
 
@@ -24,3 +24,5 @@ Route::resource('posts', PostController::class)->only([
     'index', 'show', 'create', 'edit'
 ]);
 
+Route::get('/posts/nuevoPrueba', 'App\Http\Controllers\PostController@nuevoPrueba');
+Route::get('/posts/editarPrueba/{id}', 'App\Http\Controllers\PostController@editarPrueba');
