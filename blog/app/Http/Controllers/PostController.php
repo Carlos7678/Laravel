@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
 use App\Models\Post;
 
 class PostController extends Controller
@@ -39,8 +41,9 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::findOrFail($id);
-        return view('posts.show', compact('post'));
+        return view('posts.show', ['post' => $post, 'id' => $id]);
     }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -78,16 +81,26 @@ class PostController extends Controller
     /**
      * Crea un nuevo post de prueba.
      */
-    public function nuevoPrueba()
-    {
-        $titulo = "Título " . rand();
-        $contenido = "Contenido " . rand();
-        Post::create([
-            'titulo' => $titulo,
-            'contenido' => $contenido
-        ]);
-        return redirect()->route('posts.index');
-    }
+
+
+     public function nuevoPrueba()
+     {
+         $titulo = "Título " . rand();
+         $contenido = "Contenido " . rand();
+
+         // Obtener el ID del usuario autenticado
+         $usuario_id = 1;
+
+         // Crear el nuevo post con el ID del usuario
+         $post = new Post();
+         $post->titulo = $titulo;
+         $post->contenido = $contenido;
+         $post->user_id = $usuario_id;
+         $post->save();
+
+         return redirect()->route('posts.index');
+     }
+
 
     /**
      * Edita un post de prueba existente.
@@ -102,4 +115,7 @@ class PostController extends Controller
         $post->save();
         return redirect()->route('posts.index');
     }
+
+
+
 }
