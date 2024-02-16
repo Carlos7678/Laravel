@@ -28,6 +28,7 @@ Route::resource('posts', PostController::class)->only([
 
 Route::post('/posts/nuevoPrueba', [PostController::class, 'nuevoPrueba'])->name('posts.nuevoPrueba');
 Route::get('/posts/editarPrueba/{id}', 'App\Http\Controllers\PostController@editarPrueba');
+Route::delete('/posts/{id}', [PostController::class, 'destroy'])->name('posts.destroy');
 
 
 
