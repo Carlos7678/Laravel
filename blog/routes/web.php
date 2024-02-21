@@ -3,7 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Helpers\DateHelper;
-
+use App\Http\Controllers\AuthLoginController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function () {
     return view('posts.inicio', ['fechaActual' => DateHelper::fechaActual()]);
@@ -37,3 +38,5 @@ Route::resource('posts', PostController::class)->only(['index', 'show', 'create'
 Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
 // Ruta para procesar la creación de un nuevo post
 Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
+Route::get('login', [AuthLoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthLoginController::class, 'login']);
