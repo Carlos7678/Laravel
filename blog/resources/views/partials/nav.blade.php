@@ -28,7 +28,7 @@
             @else
             <!-- Mostrar la opción de logout solo si el usuario está autenticado -->
             <li class="nav-item">
-                <form action="{{ route('logout') }}" method="POST">
+                <form action="{{ route('logout') }}" method="GET">
                     @csrf
                     <button type="submit" class="btn btn-link nav-link">Logout</button>
                 </form>

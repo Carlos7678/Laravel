@@ -97,6 +97,11 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
+
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::id()) {
+            abort(403, 'No tienes permiso para borrar este post.');
+        }
         $post = Post::findOrFail($id);
         $post->delete();
         return redirect()->route('posts.index');
@@ -113,17 +118,24 @@ class PostController extends Controller
          $contenido = "Contenido " . rand();
 
          // Obtener el ID del usuario autenticado
-         $usuario_id = 1;
+         $usuario_id = auth()->id();
 
-         // Crear el nuevo post con el ID del usuario
-         $post = new Post();
-         $post->titulo = $titulo;
-         $post->contenido = $contenido;
-         $post->user_id = $usuario_id;
-         $post->save();
+         // Verificar si hay un usuario autenticado
+         if ($usuario_id) {
+             // Crear el nuevo post con el ID del usuario
+             $post = new Post();
+             $post->titulo = $titulo;
+             $post->contenido = $contenido;
+             $post->user_id = $usuario_id;
+             $post->save();
+         } else {
+    
+             return redirect()->route('login')->with('error', 'Debes iniciar sesión para crear un post.');
+         }
 
          return redirect()->route('posts.index');
      }
+
 
 
     /**
@@ -131,6 +143,12 @@ class PostController extends Controller
      */
     public function editarPrueba($id)
     {
+
+        $post = Post::findOrFail($id);
+        if ($post->user_id != Auth::id()) {
+            abort(403, 'No tienes permiso para editar este post.');
+        }
+
         $titulo = "Título " . rand();
         $contenido = "Contenido " . rand();
         $post = Post::findOrFail($id);

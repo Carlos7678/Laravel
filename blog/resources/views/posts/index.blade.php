@@ -14,7 +14,7 @@
         <!-- Listado de posts -->
         @forelse($posts as $post)
             <div>
-                <h3>{{ $post->titulo }} (<em>{{ $post->usuario->login }}</em>)
+                <h3>{{ $post->titulo }} (<em>{{ $post->usuario->username }}</em>)</h3>
                 <button class="btn btn-warning" onclick="window.location='{{ route('posts.show', $post->id) }}'">Ver</button>
                 <form method="POST" action="{{ route('posts.destroy', $post->id) }}" style="display:inline;">
                     @csrf
@@ -25,7 +25,7 @@
                 <form method="POST" action="{{ route('posts.editarPrueba', $post->id) }}" style="display:inline;">
                     @csrf
                     <button type="submit" class="btn btn-success">Editar</button>
-                </form></h3>
+                </form>
             </div>
         @empty
             <p>No hay posts</p>
